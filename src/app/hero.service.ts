@@ -5,13 +5,16 @@ import { Observable, of } from 'rxjs';
 
 import { Hero } from './hero';
 import { MessageService } from './message.service';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HeroService {
-  constructor(private messageService: MessageService, private http: HttpClient) { }
+  constructor(
+    private messageService: MessageService,
+    private http: HttpClient
+    ) {}
 
   getHeroes(): Observable<Hero[]> {
     return this.http.get<Hero[]>('http://localhost:8000/api/heroes').pipe(

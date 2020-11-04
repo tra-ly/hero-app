@@ -3,8 +3,6 @@ const Hero = require('../models/hero.model')
 
 module.exports.getheroes = async (req, res) => {
     try {
-        // const page = parseInt(req.query.page) || 1
-        // heroes = await Hero.find().skip().limit()
         heroes = await Hero.find()
         res.send(heroes)
     } catch (error) {
@@ -53,11 +51,10 @@ module.exports.posthero = async (req, res) => {
         const requestedHeroname = req.body.name
         const genid = await Hero.find().countDocuments()
         let hero = new Hero()
-
         hero.id = genid + 1
         hero.name = requestedHeroname
         await hero.save()
-        res.json({success: requestedHeroname})
+        res.end()
     } catch (error) {
         res.status(500).json(error)
     }
