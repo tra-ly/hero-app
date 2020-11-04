@@ -39,7 +39,7 @@ module.exports.searchhero = async (req, res) => {
     try {
         const requestedHeroname = req.query.q
 
-        heroes = await Hero.find({ name: new RegExp(requestedHeroname, 'i')}).limit(10)
+        heroes = await Hero.find({ name: new RegExp(requestedHeroname)}).limit(10)
         res.send(heroes)
     } catch (error) {
         res.status(500).json(error)
@@ -49,9 +49,9 @@ module.exports.searchhero = async (req, res) => {
 module.exports.posthero = async (req, res) => {
     try {
         const requestedHeroname = req.body.name
-        const genid = await Hero.find().countDocuments()
+        const genid = await Hero.findOne().sort('-id')
         let hero = new Hero()
-        hero.id = genid + 1
+        hero.id = genid.id + 1
         hero.name = requestedHeroname
         await hero.save()
         res.end()

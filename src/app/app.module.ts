@@ -10,7 +10,8 @@ import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroSearchComponent } from './hero-search/hero-search.component';
-import { CnamePipe } from './app.cname'
+import { CnamePipe } from './app.cname';
+import { HighLightDirective } from './high-light.directive'
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { CnamePipe } from './app.cname'
     MessagesComponent,
     DashboardComponent,
     HeroSearchComponent,
-    CnamePipe
+    CnamePipe,
+    HighLightDirective
   ],
   imports: [
     HttpClientModule,

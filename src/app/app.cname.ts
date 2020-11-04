@@ -11,6 +11,8 @@ export class CnamePipe implements PipeTransform {
             arrstr[i+1] = arrstr[i+1].toUpperCase()
            }
         }
+        arrstr[0] = arrstr[0].toUpperCase()
+        
         return arrstr.join('')
     }
 }
