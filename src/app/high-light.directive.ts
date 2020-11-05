@@ -20,6 +20,5 @@ export class HighLightDirective {
     const arr = this.valueSearch.split(',', 2)
     const term = arr[1].replace(arr[0],'<b>' + arr[0] + '</b>')
     this.Element.nativeElement.innerHTML = term
-    // .replace(this.valueSearch, term).split(",", 2)
   }
 }
