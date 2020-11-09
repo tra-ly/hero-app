@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
+  selectedHero: Hero;
   p: number = 1;
   limit: number = 10;
   total: number = 499;
@@ -36,4 +37,7 @@ export class HeroesComponent implements OnInit {
     this.heroService.deleteHero(hero).subscribe();
   }
 
+  onSelect(hero: Hero): void {
+    this.selectedHero = hero;
+  }
 }

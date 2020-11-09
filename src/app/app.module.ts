@@ -13,7 +13,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { HeroSearchComponent } from './components/hero-search/hero-search.component';
 import { CnamePipe } from './app.cname';
 import { HighLightDirective } from './high-light.directive';
-import { HeroAddComponent } from './components/hero-add/hero-add.component'
+import { HeroAddComponent } from './components/hero-add/hero-add.component';
+import { DetailComponent } from './components/detail/detail.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +25,8 @@ import { HeroAddComponent } from './components/hero-add/hero-add.component'
     HeroSearchComponent,
     CnamePipe,
     HighLightDirective,
-    HeroAddComponent
+    HeroAddComponent,
+    DetailComponent
   ],
   imports: [
     HttpClientModule,
