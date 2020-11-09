@@ -16,8 +16,8 @@ export class HeroService {
     private http: HttpClient
     ) {}
 
-  getHeroes(): Observable<Hero[]> {
-    return this.http.get<Hero[]>('http://localhost:8000/api/heroes').pipe(
+  getHeroes(offset: number, limit: number): Observable<Hero[]> {
+    return this.http.get<Hero[]>(`http://localhost:8000/api/heroes/${offset}/${limit}`).pipe(
       tap(_ => this.log('fetched heroes')),
       catchError(this.handleError<Hero[]>('getHeroes', []))
     );
@@ -32,7 +32,7 @@ export class HeroService {
 
   insertHero(hero: Hero): Observable<Hero> {
     return this.http.post<Hero>('http://localhost:8000/api/heroes/add', hero).pipe(
-      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+      tap((newHero: Hero) => this.log(`added hero id=${newHero.id}`)),
       catchError(this.handleError<Hero>('addHero'))
     );
   }
@@ -67,8 +67,6 @@ export class HeroService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      console.error(error); 
 
       this.log(`${operation} failed: ${error.message}`);
 

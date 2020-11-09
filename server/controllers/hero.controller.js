@@ -1,10 +1,12 @@
-const { parse } = require('path')
+const { find } = require('../models/hero.model')
 const Hero = require('../models/hero.model')
 
 module.exports.getheroes = async (req, res) => {
+    let offset = req.params.offset;
+    let limit = req.params.limit;
     try {
-        heroes = await Hero.find()
-        res.send(heroes)
+        heroes = await Hero.paginate({}, {offset, limit})
+        res.send(heroes.docs)
     } catch (error) {
         res.status(500).json(error)
     }
@@ -64,7 +66,6 @@ module.exports.puthero = async (req, res) => {
     try {
         const requestedHeroid = req.params['id']
         const requestedHeroname = req.body.name
-        
         hero = await Hero.updateOne({ id: requestedHeroid }, { name: requestedHeroname })
         res.json( {success: requestedHeroname} )
     } catch (error) {

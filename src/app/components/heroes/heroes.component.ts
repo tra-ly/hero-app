@@ -9,32 +9,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeroesComponent implements OnInit {
   heroes: Hero[];
-
+  p: number = 1;
+  limit: number = 10;
+  total: number = 499;
   constructor(
     private heroService: HeroService
-    ) {}
+    ) { }
 
   ngOnInit() {
-    this.getHeroes();
+    this.getHeroes(this.p);
   }
 
-  getHeroes(): void {
-    this.heroService.getHeroes()
+  getHeroes(p: number): void {
+    let offset = (p - 1) * this.limit;
+    this.heroService.getHeroes(offset, this.limit)
     .subscribe(heroes => this.heroes = heroes);
+  }
+
+  getPage(pageNo: number) {
+    this.p = pageNo;
+    this.getHeroes(this.p);
   }
 
   deleteHero(hero: Hero): void {
     this.heroes = this.heroes.filter(h => h !== hero);
     this.heroService.deleteHero(hero).subscribe();
-    console.log('hero',this.heroService)
   }
 
-  addHero(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.heroService.insertHero({ name } as Hero)
-      .subscribe(hero => {
-        this.heroes.push(hero);
-      });
-  }
 }

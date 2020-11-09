@@ -4,8 +4,11 @@
     <input #searchBox id="search-box" (input)="search(searchBox.value)" />
   
     <ul class="search-result">
-      <li *ngFor="let hero of heroes$ | async" >
-        <a  routerLink="/detail/{{hero.id}}" appHighLight="{{[searchBox.value, hero.name]}}" ></a>
+      <li *ngFor="let hero of heroes$ | async">
+        <a routerLink="/detail/{{hero.id}}">
+          <span class="badge">{{hero.id}}</span> <span appHighLight="{{[searchBox.value, hero.name]}}"></span>
+        </a>
+        <button class="delete" title="delete hero" (click)="deleteHero(hero)" >x</button>
       </li>
     </ul>
   </div>

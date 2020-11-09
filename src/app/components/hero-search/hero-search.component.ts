@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
 import {
-   debounceTime, distinctUntilChanged, switchMap
+   debounceTime, distinctUntilChanged, map, switchMap
  } from 'rxjs/operators';
 
 import { Hero } from '../../hero';
@@ -31,4 +31,10 @@ export class HeroSearchComponent implements OnInit {
     );
   }
 
+  deleteHero(hero: Hero): void {
+    this.heroes$ = this.heroes$.pipe(
+      map( results => results.filter(h => h !== hero) )
+    );
+    this.heroService.deleteHero(hero).subscribe();
+  }
 }

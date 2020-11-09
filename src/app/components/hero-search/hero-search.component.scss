@@ -1,35 +1,71 @@
 .search-result {
+	margin: 0 0 2em 0;
+	list-style-type: none;
+	padding: 0;
+	width: 15em;
 	li {
-		border-bottom: 1px solid gray;
-		border-left: 1px solid gray;
-		border-right: 1px solid gray;
-		width: 195px;
-		height: 16px;
-		padding: 5px;
-		background-color: white;
+		position: relative;
 		cursor: pointer;
-		list-style-type: none;
+		background-color: #EEE;
+		margin: .5em;
+		padding: .3em 0;
+		height: 1.6em;
+		border-radius: 4px;
 		&:hover {
-			background-color: #607D8B;
+			color: #607D8B;
+			background-color: #DDD;
+			left: .1em;
 		}
-		a {
-			color: #888;
-			display: block;
-			text-decoration: none;
-			&:hover {
-				color: white;
-			}
-			&:active {
-				color: white;
-			}
+	}
+	a {
+		color: #333;
+		text-decoration: none;
+		position: relative;
+		display: block;
+		width: 250px;
+		&:hover {
+			color: #607D8B;
 		}
+	}
+	.badge {
+		display: inline-block;
+		font-size: small;
+		color: white;
+		padding: 0.8em 0.7em 0 0.7em;
+		background-color: #405061;
+		line-height: 1em;
+		position: relative;
+		left: -1px;
+		top: -4px;
+		height: 1.8em;
+		min-width: 16px;
+		text-align: right;
+		margin-right: .8em;
+		border-radius: 4px 0 0 4px;
 	}
 }
 #search-box {
 	width: 200px;
 	height: 20px;
 }
-ul.search-result {
-	margin-top: 0;
-	padding-left: 0;
+
+button {
+	background-color: #eee;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 4px;
+	cursor: pointer;
+	cursor: hand;
+	font-family: Arial;
+	&:hover {
+		background-color: #cfd8dc;
+	}
+}
+
+button.delete {
+	position: relative;
+	left: 194px;
+	top: -34px;
+	background-color: gray !important;
+	color: white;
 }
