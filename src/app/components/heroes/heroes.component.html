@@ -1,16 +1,25 @@
 <h2>My Heroes</h2>
 <app-detail [hero]="selectedHero"></app-detail>
 <app-hero-add></app-hero-add>
-<ul class="heroes">
-  <li *ngFor="let hero of heroes | paginate: { itemsPerPage: limit, currentPage: p, totalItems: total }" [class.selected]="hero === selectedHero"
-  (click)="onSelect(hero)">
-    <a>
-      <span class="badge">{{hero.id}}</span> {{hero.name | cname}}
-    </a> 
-    <button class="delete" title="delete hero"
-      (click)="deleteHero(hero)">x</button>
-  </li>
-</ul>
-<div class="pagination pagination-sm m-0 float-right">
-  <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+<div [class.loading]="(loading$ | async)" *ngIf="!(error$ | async); else error">
+  <ul class="heroes" *ngIf="(heroes | async); else noItems">
+    <li *ngFor="let hero of heroes | async | paginate: { itemsPerPage: limit, currentPage: p, totalItems: total }" [class.selected]="hero === selectedHero">
+      <a (click)="onSelect(hero)">
+        <span class="badge">{{hero.id}}</span> {{hero.name | cname}}
+      </a> 
+      <button class="delete" title="delete hero"
+        (click)="deleteHero(hero.id)">x</button>
+    </li>
+  </ul>
+  <ng-template #noItems>
+    <ul>
+      <li style="max-width:250px;margin:0 auto;">No items found. Are you sure there's <em>nothing</em> you want?</li>
+    </ul>
+  </ng-template>
+  <div class="pagination pagination-sm m-0 float-right">
+    <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+  </div>
 </div>
+<ng-template #error>
+  <h2>{{(error$ | async)?.message}}</h2>
+</ng-template>

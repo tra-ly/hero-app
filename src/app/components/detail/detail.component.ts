@@ -1,4 +1,8 @@
 import { HeroService } from './../../hero.service';
+import { Observable, Subject } from 'rxjs';
+import { UpdateHeroAction } from './../../store/hero.actions';
+import { AppState } from './../../store/hero.state';
+import { Store } from '@ngrx/store';
 import { Hero } from './../../hero';
 import { Component, Input, OnInit } from '@angular/core';
 
@@ -9,14 +13,18 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
   @Input() hero: Hero;
-
-  constructor(private heroService: HeroService) { }
+  loading$: Observable<Boolean>;
+  error$: Observable<Error>;
+  constructor(
+    private store: Store<AppState>,
+    private heroService: HeroService
+    ) { }
 
   ngOnInit(): void {
   }
 
   save(): void {
-    this.heroService.updateHero(this.hero)
-      .subscribe();
+    this.store.dispatch(new UpdateHeroAction(this.hero));
+    this.heroService.selectHero(this.loading$, this.error$, this.store);
   }
 }

@@ -1,3 +1,4 @@
+import { Store } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -6,18 +7,23 @@ import { Observable, of } from 'rxjs';
 import { Hero } from './hero';
 import { MessageService } from './message.service';
 import { catchError, tap } from 'rxjs/operators';
-
+import { AppState } from './store/hero.state';
 @Injectable({
   providedIn: 'root'
 })
 export class HeroService {
   constructor(
     private messageService: MessageService,
-    private http: HttpClient
-    ) {}
+    private http: HttpClient,
+  ) {}
+  
+  selectHero(  loading$: Observable<Boolean>, error$: Observable<Error>, store: Store<AppState>) {
+    loading$ = store.select(store => store.hero.loading);
+    error$ = store.select(store => store.hero.error);
+  }
 
-  getHeroes(offset: number, limit: number): Observable<Hero[]> {
-    return this.http.get<Hero[]>(`http://localhost:8000/api/heroes/${offset}/${limit}`).pipe(
+  getHeroes(pagination: {offset: number, limit: number}): Observable<Hero[]> {
+    return this.http.get<Hero[]>(`http://localhost:8000/api/heroes/${pagination.offset}/${pagination.limit}`).pipe(
       tap(_ => this.log('fetched heroes')),
       catchError(this.handleError<Hero[]>('getHeroes', []))
     );
@@ -32,7 +38,7 @@ export class HeroService {
 
   insertHero(hero: Hero): Observable<Hero> {
     return this.http.post<Hero>('http://localhost:8000/api/heroes/add', hero).pipe(
-      tap((newHero: Hero) => this.log(`added hero id=${newHero.id}`)),
+      tap((newHero: Hero) => this.log(`added hero id=${newHero}`)),
       catchError(this.handleError<Hero>('addHero'))
     );
   }
@@ -44,17 +50,15 @@ export class HeroService {
     );
   }
 
-  deleteHero(hero: Hero) {
-    console.log("heh",hero.id)
-    return this.http.delete(`http://localhost:8000/api/heroes/${hero.id}`).pipe(
-      tap(_ => this.log(`deleted hero id=${hero.id}`)),
+  deleteHero(id: number) {
+    return this.http.delete(`http://localhost:8000/api/heroes/${id}`).pipe(
+      tap(_ => this.log(`deleted hero id=${id}`)),
       catchError(this.handleError<Hero>('deleteHero'))
     );
   }
   
   searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
-      // if not search term, return empty hero array.
       return of([]);
     }
     return this.http.get<Hero[]>(`http://localhost:8000/api/heroes/search/?q=${term}`).pipe(

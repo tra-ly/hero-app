@@ -1,6 +1,8 @@
-import { HeroService } from './../../hero.service';
+import { AddHeroAction } from './../../store/hero.actions';
+import { AppState } from './../../store/hero.state';
 import { Hero } from './../../hero';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-hero-add',
@@ -8,27 +10,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hero-add.component.scss']
 })
 export class HeroAddComponent implements OnInit {
-  heroes: Hero[];
   constructor(
-    private heroService: HeroService
+    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
   }
 
   addHero(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.heroService.insertHero({ name } as Hero).subscribe()
-      // .subscribe(hero => {
-      //   this.heroes.push(hero);
-      // });
+    this.store.dispatch(new AddHeroAction({name} as Hero));
   }
-  // private genid() {
-  //   let max = 0;
-  //   for (let i=0; i<this.heroes.length; i++){
-  //     max=(max>this.heroes['id'])?this.heroes['id']:max;
-  //   }
-  //   return max + 1
-  // }
 }

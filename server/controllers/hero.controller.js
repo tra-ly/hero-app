@@ -56,7 +56,7 @@ module.exports.posthero = async (req, res) => {
         hero.id = genid.id + 1
         hero.name = requestedHeroname
         await hero.save()
-        res.end()
+        res.send(hero)
     } catch (error) {
         res.status(500).json(error)
     }

@@ -1,3 +1,4 @@
+import { HeroEffects } from './store/hero.effects';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -15,6 +16,11 @@ import { CnamePipe } from './app.cname';
 import { HighLightDirective } from './high-light.directive';
 import { HeroAddComponent } from './components/hero-add/hero-add.component';
 import { DetailComponent } from './components/detail/detail.component'
+import { StoreModule } from '@ngrx/store';
+import { HeroReducer } from './store/hero.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +35,16 @@ import { DetailComponent } from './components/detail/detail.component'
     DetailComponent
   ],
   imports: [
+    EffectsModule.forRoot([HeroEffects]),
+    StoreModule.forRoot({
+      hero: HeroReducer
+    }, {
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false
+      }
+    }),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     HttpClientModule,
     FormsModule,
     BrowserModule,

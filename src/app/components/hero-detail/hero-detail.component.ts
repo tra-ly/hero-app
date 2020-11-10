@@ -1,9 +1,13 @@
+import { Observable } from 'rxjs';
+import { UpdateHeroAction } from './../../store/hero.actions';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Hero } from '../../hero';
 import { HeroService } from '../../hero.service';
+import { AppState } from 'src/app/store/hero.state';
 
 @Component({
   selector: 'app-hero-detail',
@@ -12,11 +16,13 @@ import { HeroService } from '../../hero.service';
 })
 export class HeroDetailComponent implements OnInit {
   hero: Hero;
-
+  loading$: Observable<Boolean>;
+  error$: Observable<Error>;
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location
+    private location: Location,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
@@ -30,8 +36,9 @@ export class HeroDetailComponent implements OnInit {
   }
   
   save(): void {
-    this.heroService.updateHero(this.hero)
-      .subscribe(() => this.goBack());
+    this.store.dispatch(new UpdateHeroAction(this.hero));
+    this.heroService.selectHero(this.loading$, this.error$, this.store);
+    this.goBack()
   }
 
   goBack(): void {
