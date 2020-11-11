@@ -14,6 +14,9 @@ export enum HeroActionTypes {
     UPDATE_HERO = '[HERO] Update Hero',
     UPDATE_HERO_SUCCESS = '[HERO] Update Hero Success',
     UPDATE_HERO_FAILURE = '[HERO] Update Hero Failure',
+    GET_HERO = '[HERO] Get Hero ',
+    GET_HERO_SUCCESS = '[HERO] Get Hero Success',
+    GET_HERO_FAILURE = '[HERO] Get Hero Failure',
 }
 
 export class LoadHeroAction implements Action {
@@ -95,4 +98,4 @@ LoadHeroFailureAction |
 LoadHeroSuccessAction |
 UpdateHeroAction |
 UpdateHeroFailureAction |
-UpdateHeroSuccessAction
+UpdateHeroSuccessAction 

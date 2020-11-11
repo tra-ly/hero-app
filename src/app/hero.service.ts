@@ -15,11 +15,23 @@ export class HeroService {
   constructor(
     private messageService: MessageService,
     private http: HttpClient,
+    private store: Store<AppState>
   ) {}
   
-  selectHero(  loading$: Observable<Boolean>, error$: Observable<Error>, store: Store<AppState>) {
-    loading$ = store.select(store => store.hero.loading);
-    error$ = store.select(store => store.hero.error);
+  selectHero(id: number): Observable<Hero> {
+    return this.store.select(store => store.hero.list.find(h => h.id === id));
+  }
+
+  selectHeroes() {
+    return this.store.select(store => store.hero.list);
+  }
+
+  selectError() {
+    return this.store.select(store => store.hero.error);
+  }
+
+  selectLoading() {
+    return this.store.select(store => store.hero.loading);
   }
 
   getHeroes(pagination: {offset: number, limit: number}): Observable<Hero[]> {

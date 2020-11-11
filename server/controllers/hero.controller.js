@@ -41,7 +41,7 @@ module.exports.searchhero = async (req, res) => {
     try {
         const requestedHeroname = req.query.q
 
-        heroes = await Hero.find({ name: new RegExp(requestedHeroname)}).limit(10)
+        heroes = await Hero.find({ name: new RegExp(requestedHeroname, 'i')}).limit(10)
         res.send(heroes)
     } catch (error) {
         res.status(500).json(error)

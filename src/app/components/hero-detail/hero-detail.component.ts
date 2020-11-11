@@ -1,13 +1,11 @@
-import { Observable } from 'rxjs';
-import { UpdateHeroAction } from './../../store/hero.actions';
-import { Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Hero } from '../../hero';
 import { HeroService } from '../../hero.service';
-import { AppState } from 'src/app/store/hero.state';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-hero-detail',
@@ -18,30 +16,25 @@ export class HeroDetailComponent implements OnInit {
   hero: Hero;
   loading$: Observable<Boolean>;
   error$: Observable<Error>;
+  subscription = new Subscription();
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
     private location: Location,
-    private store: Store<AppState>
   ) { }
 
   ngOnInit(): void {
-    this.getHero();
-  }
-  
-  getHero(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
-  }
-  
-  save(): void {
-    this.store.dispatch(new UpdateHeroAction(this.hero));
-    this.heroService.selectHero(this.loading$, this.error$, this.store);
-    this.goBack()
+    this.route.paramMap.pipe(
+      filter(param => !!param.get('id')),
+      map(param => param.get('id')),
+      switchMap(id => this.heroService.selectHero(+id))
+    ).subscribe(hero => {
+      this.hero = hero;
+    })
   }
 
   goBack(): void {
     this.location.back();
   }
+
 }

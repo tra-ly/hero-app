@@ -18,6 +18,8 @@ export class HeroAddComponent implements OnInit {
   }
 
   addHero(name: string): void {
+    name = name.trim();
+    if(!name) { return; }
     this.store.dispatch(new AddHeroAction({name} as Hero));
   }
 }

@@ -20,21 +20,21 @@ export class HeroEffects {
             catchError(error => of(new LoadHeroFailureAction(error)))
           )
       ),
-  )
+    )
 
   @Effect() addHero$ = this.actions$
     .pipe(
       ofType<AddHeroAction>(HeroActionTypes.ADD_HERO),
       mergeMap(
         (data) => this.HeroService.insertHero(data.payload)
-        .pipe(
+          .pipe(
             map(data => {
               return new AddHeroSuccessAction(data)
             }),
             catchError(error => of(new AddHeroFailureAction(error)))
           )
       )
-  );
+    );
 
   @Effect() deleteHero$ = this.actions$
     .pipe(
@@ -47,7 +47,7 @@ export class HeroEffects {
           )
       )
     );
-  
+
   @Effect() updateHero$ = this.actions$
     .pipe(
       ofType<UpdateHeroAction>(HeroActionTypes.UPDATE_HERO),
@@ -61,7 +61,7 @@ export class HeroEffects {
     );
 
   constructor(
-      private actions$: Actions,
-      private HeroService: HeroService
+    private actions$: Actions,
+    private HeroService: HeroService
   ) { }
 }

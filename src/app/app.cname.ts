@@ -4,10 +4,10 @@ import { Pipe, PipeTransform } from "@angular/core";
 })
 export class CnamePipe implements PipeTransform {
     transform(val: string) : string {
-        const arrstr = [...val.toLowerCase()]
+        const arrstr = [...val]
         
         for(let [i, temp] of arrstr.entries()){
-           if(temp==' '){
+           if(temp === ' '){
             arrstr[i+1] = arrstr[i+1].toUpperCase()
            }
         }

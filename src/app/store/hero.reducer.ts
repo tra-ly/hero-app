@@ -74,6 +74,8 @@ export function HeroReducer(state: HeroState = initialState, action: HeroAction)
         loading: true
       }
     case HeroActionTypes.UPDATE_HERO_SUCCESS:
+      const indexList = state.list.findIndex(element => element.id === action.payload.id)
+      state.list[indexList].name = action.payload.name
       return {
         ...state,
         list: state.list,

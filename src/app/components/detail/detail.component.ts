@@ -1,10 +1,12 @@
+import { Location } from '@angular/common';
 import { HeroService } from './../../hero.service';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UpdateHeroAction } from './../../store/hero.actions';
 import { AppState } from './../../store/hero.state';
 import { Store } from '@ngrx/store';
 import { Hero } from './../../hero';
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detail',
@@ -13,11 +15,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class DetailComponent implements OnInit {
   @Input() hero: Hero;
+  @Input() callbackGoBack: (args: any) => void;
   loading$: Observable<Boolean>;
   error$: Observable<Error>;
   constructor(
     private store: Store<AppState>,
-    private heroService: HeroService
+    private heroService: HeroService,
+    private route: Router,
+    private location: Location
     ) { }
 
   ngOnInit(): void {
@@ -25,6 +30,10 @@ export class DetailComponent implements OnInit {
 
   save(): void {
     this.store.dispatch(new UpdateHeroAction(this.hero));
-    this.heroService.selectHero(this.loading$, this.error$, this.store);
+    this.error$ = this.heroService.selectError();
+    this.loading$ = this.heroService.selectLoading();
+    if(this.route.url!=='/heroes') {
+      this.location.back();
+    }
   }
 }

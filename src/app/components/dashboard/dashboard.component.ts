@@ -1,3 +1,4 @@
+import { HeroService } from 'src/app/hero.service';
 import { LoadHeroAction } from './../../store/hero.actions';
 import { Observable } from 'rxjs';
 import { AppState } from './../../store/hero.state';
@@ -10,22 +11,24 @@ import { Hero } from '../../hero';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  heroes: Observable<Hero[]>;
+  heroes$: Observable<Hero[]>;
   loading$: Observable<Boolean>;
   error$: Observable<Error>
   hero: Hero
 
-  constructor(private store: Store<AppState>) { }
+  constructor(
+    private store: Store<AppState>,
+    private heroService: HeroService
+    ) { }
 
   ngOnInit(): void {
     this.getHeroes();
   }
 
   getHeroes(): void {
-    this.heroes = this.store.select(store => store.hero.list);
-    this.loading$ = this.store.select(store => store.hero.loading);
-    this.error$ = this.store.select(store => store.hero.error);
-
+    this.heroes$ = this.heroService.selectHeroes();
+    this.loading$ = this.heroService.selectLoading();
+    this.error$ = this.heroService.selectError();
     this.store.dispatch(new LoadHeroAction({offset: 0, limit: 4}));
   }
 }

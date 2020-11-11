@@ -5,6 +5,7 @@ import { AppState } from './../../store/hero.state';
 import { Hero } from './../../hero';
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs/internal/operators/map';
 
 @Component({
   selector: 'app-heroes',
@@ -15,7 +16,6 @@ export class HeroesComponent implements OnInit {
   heroes: Observable<Hero[]>;
   loading$: Observable<Boolean>;
   error$: Observable<Error>
-  hero: Hero = { _id: '', id: 0, name: '' }
   selectedHero: Hero;
   p: number = 1;
   limit: number = 10;
@@ -23,7 +23,7 @@ export class HeroesComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private heroService: HeroService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getHeroes(this.p);
@@ -32,9 +32,10 @@ export class HeroesComponent implements OnInit {
   getHeroes(p: number) {
     let offset = (p - 1) * this.limit;
     let limit = this.limit;
-    this.heroes = this.store.select(store => store.hero.list);
-    this.heroService.selectHero(this.loading$, this.error$, this.store);
-    this.store.dispatch(new LoadHeroAction({offset, limit}));
+    this.heroes = this.heroService.selectHeroes();
+    this.error$ = this.heroService.selectError();
+    this.loading$ = this.heroService.selectLoading();
+    this.store.dispatch(new LoadHeroAction({ offset, limit }));
   }
 
   getPage(pageNo: number) {
@@ -42,11 +43,11 @@ export class HeroesComponent implements OnInit {
     this.getHeroes(this.p);
   }
 
-  deleteHero(id: number): void {
+  deleteHero(id: number) {
     this.store.dispatch(new DeleteHeroAction(id));
   }
 
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
+  onSelect(hero: Hero) {
+    this.selectedHero = { ...hero };
   }
 }
