@@ -35,7 +35,7 @@ export class HeroesComponent implements OnInit {
     this.heroes = this.heroService.selectHeroes();
     this.error$ = this.heroService.selectError();
     this.loading$ = this.heroService.selectLoading();
-    this.store.dispatch(new LoadHeroAction({ offset, limit }));
+    this.heroService.dispatchHero(new LoadHeroAction({ offset, limit }));
   }
 
   getPage(pageNo: number) {

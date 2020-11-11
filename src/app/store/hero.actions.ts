@@ -20,71 +20,89 @@ export enum HeroActionTypes {
 }
 
 export class LoadHeroAction implements Action {
-    readonly type = HeroActionTypes.LOAD_HERO
+    readonly type = HeroActionTypes.LOAD_HERO;
     constructor(public payload: {offset: number, limit: number}) { }
 }
 
 export class LoadHeroSuccessAction implements Action {
-    readonly type = HeroActionTypes.LOAD_HERO_SUCCESS
+    readonly type = HeroActionTypes.LOAD_HERO_SUCCESS;
 
-    constructor(public payload: Hero[]) {}
+    constructor(public payload: Hero[]) { }
 }
 
 export class LoadHeroFailureAction implements Action {
-    readonly type = HeroActionTypes.LOAD_HERO_FAILURE
+    readonly type = HeroActionTypes.LOAD_HERO_FAILURE;
 
-    constructor(public payload: Error) {}
+    constructor(public payload: Error) { }
 }
 
 export class AddHeroAction implements Action {
-    readonly type = HeroActionTypes.ADD_HERO
+    readonly type = HeroActionTypes.ADD_HERO;
 
     constructor(public payload: Hero) { }
 }
 export class AddHeroSuccessAction implements Action {
-    readonly type = HeroActionTypes.ADD_HERO_SUCCESS
+    readonly type = HeroActionTypes.ADD_HERO_SUCCESS;
 
     constructor(public payload: Hero) { }
 }
 export class AddHeroFailureAction implements Action {
-    readonly type = HeroActionTypes.ADD_HERO_FAILURE
+    readonly type = HeroActionTypes.ADD_HERO_FAILURE;
 
     constructor(public payload: Error) { }
 }
 
 export class DeleteHeroAction implements Action {
-    readonly type = HeroActionTypes.DELETE_HERO
+    readonly type = HeroActionTypes.DELETE_HERO;
 
     constructor(public payload: number) { }
 }
 
 export class DeleteHeroSuccessAction implements Action {
-    readonly type = HeroActionTypes.DELETE_HERO_SUCCESS
+    readonly type = HeroActionTypes.DELETE_HERO_SUCCESS;
 
     constructor(public payload: number) { }
 }
 export class DeleteHeroFailureAction implements Action {
-    readonly type = HeroActionTypes.DELETE_HERO_FAILURE
+    readonly type = HeroActionTypes.DELETE_HERO_FAILURE;
 
-    constructor(public payload: number) { }
+    constructor(public payload: Error) { }
 }
 
 export class UpdateHeroAction implements Action {
-    readonly type = HeroActionTypes.UPDATE_HERO
+    readonly type = HeroActionTypes.UPDATE_HERO;
 
     constructor(public payload: Hero) { }
 }
 
 export class UpdateHeroSuccessAction implements Action {
-    readonly type = HeroActionTypes.UPDATE_HERO_SUCCESS
+    readonly type = HeroActionTypes.UPDATE_HERO_SUCCESS;
 
     constructor(public payload: Hero) { }
 }
 
 export class UpdateHeroFailureAction implements Action {
-    readonly type = HeroActionTypes.UPDATE_HERO_FAILURE
+    readonly type = HeroActionTypes.UPDATE_HERO_FAILURE;
+
+    constructor(public payload: Error) { }
+}
+
+export class GetHeroAction implements Action {
+    readonly type = HeroActionTypes.GET_HERO;
+
+    constructor(public payload: number) { }
+}
+
+export class GetHeroSuccessAction implements Action {
+    readonly type = HeroActionTypes.GET_HERO_SUCCESS;
 
     constructor(public payload: Hero) { }
+}
+
+export class GetHeroFailureAction implements Action {
+    readonly type = HeroActionTypes.GET_HERO_FAILURE;
+
+    constructor(public payload: Error) { }
 }
 
 export type HeroAction = AddHeroAction |
@@ -98,4 +116,7 @@ LoadHeroFailureAction |
 LoadHeroSuccessAction |
 UpdateHeroAction |
 UpdateHeroFailureAction |
-UpdateHeroSuccessAction 
+UpdateHeroSuccessAction |
+GetHeroAction |
+GetHeroSuccessAction |
+GetHeroFailureAction

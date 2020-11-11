@@ -13,7 +13,7 @@ export class HighLightDirective {
   ) {}
 
   ngOnInit(){
-    this.boldText()
+    this.boldText();
   }
   
   private boldText(){
@@ -23,12 +23,9 @@ export class HighLightDirective {
     let tagHTML;
     
     if(arr[1].includes(term[0].toUpperCase())) {
-      arr[0] = arr[0].replace(term[0], term[0].toUpperCase())
-      tagHTML = arr[1].replace(arr[0], '<b>' + arr[0] + '</b>');
+      arr[0] = arr[0].replace(term[0], term[0].toUpperCase());
     }
-    else {
-      tagHTML = arr[1].replace(arr[0], '<b>' + arr[0] + '</b>');
-    }
+    tagHTML = arr[1].replace(arr[0], '<b>' + arr[0] + '</b>');
     this.Element.nativeElement.innerHTML = tagHTML;
 
   }

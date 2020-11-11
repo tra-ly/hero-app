@@ -1,4 +1,5 @@
-import { Store } from '@ngrx/store';
+import { GetHeroAction, LoadHeroAction } from './store/hero.actions';
+import { Store, Action } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
@@ -17,8 +18,12 @@ export class HeroService {
     private http: HttpClient,
     private store: Store<AppState>
   ) {}
-  
+  dispatchHero (action: Action) {
+    this.store.dispatch(action);
+  }
+
   selectHero(id: number): Observable<Hero> {
+    this.store.dispatch(new GetHeroAction(id))
     return this.store.select(store => store.hero.list.find(h => h.id === id));
   }
 
