@@ -1,3 +1,4 @@
+import { HeroService } from 'src/app/hero.service';
 import { AddHeroAction } from './../../store/hero.actions';
 import { AppState } from './../../store/hero.state';
 import { Hero } from './../../hero';
@@ -11,7 +12,8 @@ import { Store } from '@ngrx/store';
 })
 export class HeroAddComponent implements OnInit {
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private heroService: HeroService
   ) { }
 
   ngOnInit(): void {
@@ -20,6 +22,6 @@ export class HeroAddComponent implements OnInit {
   addHero(name: string): void {
     name = name.trim();
     if(!name) { return; }
-    this.store.dispatch(new AddHeroAction({name} as Hero));
+    this.heroService.dispatchHero(new AddHeroAction({name} as Hero));
   }
 }

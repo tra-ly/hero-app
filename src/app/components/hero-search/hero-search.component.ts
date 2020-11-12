@@ -39,7 +39,7 @@ export class HeroSearchComponent implements OnInit {
 
   deleteHero(hero: Hero): void {
     this.heroes = this.heroes.filter(h => h !== hero);
-    this.store.dispatch(new DeleteHeroAction(hero.id));
+    this.heroService.dispatchHero(new DeleteHeroAction(hero.id));
   }
 
 }

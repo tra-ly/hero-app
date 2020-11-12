@@ -29,7 +29,7 @@ export class DetailComponent implements OnInit {
   }
 
   save(): void {
-    this.store.dispatch(new UpdateHeroAction(this.hero));
+    this.heroService.dispatchHero(new UpdateHeroAction(this.hero));
     this.error$ = this.heroService.selectError();
     this.loading$ = this.heroService.selectLoading();
     if(this.route.url!=='/heroes') {

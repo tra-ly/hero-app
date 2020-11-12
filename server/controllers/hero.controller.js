@@ -2,10 +2,9 @@ const { find } = require('../models/hero.model')
 const Hero = require('../models/hero.model')
 
 module.exports.getheroes = async (req, res) => {
-    let offset = req.params.offset;
-    let limit = req.params.limit;
+    const offset = req.query.pages * 10;
     try {
-        heroes = await Hero.paginate({}, {offset, limit})
+        heroes = await Hero.paginate({}, {offset, limit: 10})
         res.send(heroes.docs)
     } catch (error) {
         res.status(500).json(error)

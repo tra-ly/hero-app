@@ -21,7 +21,7 @@ export enum HeroActionTypes {
 
 export class LoadHeroAction implements Action {
     readonly type = HeroActionTypes.LOAD_HERO;
-    constructor(public payload: {offset: number, limit: number}) { }
+    constructor(public payload: number) { }
 }
 
 export class LoadHeroSuccessAction implements Action {

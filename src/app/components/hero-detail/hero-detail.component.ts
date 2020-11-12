@@ -1,3 +1,4 @@
+import { GetHeroAction } from './../../store/hero.actions';
 import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -24,10 +25,14 @@ export class HeroDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    ;
     this.route.paramMap.pipe(
       filter(param => !!param.get('id')),
       map(param => param.get('id')),
-      switchMap(id => this.heroService.selectHero(+id))
+      switchMap(id => {
+        this.heroService.dispatchHero(new GetHeroAction(+id));
+        return this.heroService.selectHero(+id);
+      })
     ).subscribe(hero => {
       this.hero = hero;
     })

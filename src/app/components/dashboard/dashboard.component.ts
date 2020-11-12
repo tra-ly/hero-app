@@ -11,13 +11,11 @@ import { Hero } from '../../hero';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  heroes$: Observable<Hero[]>;
+  heroes: Hero[];
   loading$: Observable<Boolean>;
   error$: Observable<Error>
-  hero: Hero
 
   constructor(
-    private store: Store<AppState>,
     private heroService: HeroService
     ) { }
 
@@ -26,9 +24,9 @@ export class DashboardComponent implements OnInit {
   }
 
   getHeroes(): void {
-    this.heroes$ = this.heroService.selectHeroes();
+    this.heroService.selectHeroes().subscribe(heroes => this.heroes = heroes.slice(1, 5));
     this.loading$ = this.heroService.selectLoading();
     this.error$ = this.heroService.selectError();
-    this.store.dispatch(new LoadHeroAction({offset: 0, limit: 4}));
+    this.heroService.dispatchHero(new LoadHeroAction(0));
   }
 }

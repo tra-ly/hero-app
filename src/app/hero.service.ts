@@ -1,4 +1,5 @@
-import { GetHeroAction, LoadHeroAction } from './store/hero.actions';
+import { SeclectStore } from './store/hero.selects';
+import { GetHeroAction } from './store/hero.actions';
 import { Store, Action } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -16,31 +17,31 @@ export class HeroService {
   constructor(
     private messageService: MessageService,
     private http: HttpClient,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private selectStore: SeclectStore
   ) {}
   dispatchHero (action: Action) {
     this.store.dispatch(action);
   }
 
   selectHero(id: number): Observable<Hero> {
-    this.store.dispatch(new GetHeroAction(id))
-    return this.store.select(store => store.hero.list.find(h => h.id === id));
+    return this.store.select(this.selectStore.getList(id));
   }
 
   selectHeroes() {
-    return this.store.select(store => store.hero.list);
+    return this.store.select(this.selectStore.getLists);
   }
 
   selectError() {
-    return this.store.select(store => store.hero.error);
+    return this.store.select(this.selectStore.getError);
   }
 
   selectLoading() {
-    return this.store.select(store => store.hero.loading);
+    return this.store.select(this.selectStore.getLoading);
   }
 
-  getHeroes(pagination: {offset: number, limit: number}): Observable<Hero[]> {
-    return this.http.get<Hero[]>(`http://localhost:8000/api/heroes/${pagination.offset}/${pagination.limit}`).pipe(
+  getHeroes(offset: number): Observable<Hero[]> {
+    return this.http.get<Hero[]>(`http://localhost:8000/api/heroes?pages=${offset}`).pipe(
       tap(_ => this.log('fetched heroes')),
       catchError(this.handleError<Hero[]>('getHeroes', []))
     );

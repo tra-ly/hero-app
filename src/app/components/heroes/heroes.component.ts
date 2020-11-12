@@ -30,12 +30,11 @@ export class HeroesComponent implements OnInit {
   }
 
   getHeroes(p: number) {
-    let offset = (p - 1) * this.limit;
-    let limit = this.limit;
+    let offset = (p - 1);
     this.heroes = this.heroService.selectHeroes();
     this.error$ = this.heroService.selectError();
     this.loading$ = this.heroService.selectLoading();
-    this.heroService.dispatchHero(new LoadHeroAction({ offset, limit }));
+    this.heroService.dispatchHero(new LoadHeroAction(offset));
   }
 
   getPage(pageNo: number) {
